@@ -1,0 +1,21 @@
+
+import os
+
+from celery import Celery
+
+os.environ.setdefault(
+    "DJANGO_SETTINGS_MODULE",
+    "PulseNotify.settings.local",
+)
+
+app = Celery(
+    "PulseNotify",
+    include=["pulse.tasks"],
+)
+
+app.config_from_object(
+    "django.conf:settings",
+    namespace="CELERY",
+)
+
+app.autodiscover_tasks()
